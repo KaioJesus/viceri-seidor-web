@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+* {
+  box-sizing: border-box;
+}
+
+/* --- Custom Styles --- */
+
+@theme {
+  --color-primary: #3b82f6;
+  --color-light-gray: #e3e3e3;
+  --color-medium-gray: #6b7280;
+}
