@@ -1,0 +1,76 @@
+<div [formGroup]="formStepGroup">
+  <fieldset>
+    <label for="email" class="block text-sm font-medium text-gray-700"
+      >E-Mail<span class="text-red-500">*</span></label
+    >
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder:text-medium-gray"
+      placeholder="seuemail@dominio.com"
+    />
+    @if(formStepGroup.get('email')?.invalid &&
+    formStepGroup.get('email')?.touched) {
+    <p class="text-sm text-red-600 mt-1">Por favor, insira um e-mail válido.</p>
+    }
+  </fieldset>
+
+  <fieldset class="space-y-4 mt-6">
+    <label class="block text-sm font-medium text-gray-700">Telefones</label>
+
+    <div formArrayName="telefones" class="space-y-3">
+      @for (control of telefones.controls; track $index) {
+      <div class="flex items-center space-x-3">
+        <input
+          type="tel"
+          [formControlName]="$index"
+          [placeholder]="'Telefone ' + ($index + 1)"
+          class="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder:text-medium-gray"
+        />
+
+        <button
+          type="button"
+          (click)="addTelefone()"
+          class="p-1 text-blue-600 hover:text-blue-800"
+          title="Adicionar outro telefone"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          (click)="removeTelefone($index)"
+          [disabled]="telefones.length <= 1"
+          class="p-1 text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+          title="Remover telefone"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+      }
+    </div>
+  </fieldset>
+</div>
