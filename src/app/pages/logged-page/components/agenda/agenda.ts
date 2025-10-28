@@ -1,7 +1,17 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  Signal,
+  signal,
+  WritableSignal,
+  ViewChild,
+  effect
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FullCalendarModule } from '@fullcalendar/angular';
+
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { AgendaService } from '../../../../core/services/agenda.service';
@@ -33,9 +43,26 @@ function isTomorrow(date: Date): boolean {
 export class Agenda {
   private agendaService = inject(AgendaService);
 
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
   private meetings: Signal<Meeting[]> = this.agendaService.meetings;
 
-  public currentMonth = new Date()
+  public currentDate: WritableSignal<Date> = signal(new Date());
+
+  public readonly monthOptions = [
+    { name: 'Janeiro', value: 0 },
+    { name: 'Fevereiro', value: 1 },
+    { name: 'Março', value: 2 },
+    { name: 'Abril', value: 3 },
+    { name: 'Maio', value: 4 },
+    { name: 'Junho', value: 5 },
+    { name: 'Julho', value: 6 },
+    { name: 'Agosto', value: 7 },
+    { name: 'Setembro', value: 8 },
+    { name: 'Outubro', value: 9 },
+    { name: 'Novembro', value: 10 },
+    { name: 'Dezembro', value: 11 },
+  ];
 
   public calendarEvents: Signal<EventInput[]> = computed(() => {
     return this.meetings().map((meeting: Meeting) => ({
@@ -51,6 +78,7 @@ export class Agenda {
     headerToolbar: false,
     events: this.calendarEvents(),
     height: 'auto',
+    initialDate: this.currentDate(),
   }));
 
   public todayEvents: Signal<Meeting[]> = computed(() =>
@@ -60,6 +88,24 @@ export class Agenda {
   public tomorrowEvents: Signal<Meeting[]> = computed(() =>
     this.meetings().filter(m => isTomorrow(new Date(m.dateTime)))
   );
+
+  constructor(){
+    effect(() => {
+      const newDate = this.currentDate();
+      if (this.calendarComponent) {
+        this.calendarComponent.getApi().gotoDate(newDate);
+      }
+    });
+  }
+
+    onMonthChange(event: Event): void {
+    const newMonthIndex = parseInt((event.target as HTMLSelectElement).value, 10);
+    this.currentDate.update(date => {
+      const newDate = new Date(date);
+      newDate.setMonth(newMonthIndex);
+      return newDate;
+    });
+  }
 
 
   onAddEvent(): void {
