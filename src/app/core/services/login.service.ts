@@ -10,7 +10,7 @@ import {
 import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AUTH_TOKEN_ENABLED } from '../interceptors/auth.interceptor';
-import { User } from './models';
+import { User } from '../models/models';
 
 export interface LoginResponse {
   token: string;
