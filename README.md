@@ -1,7 +1,7 @@
 # ViceriSeidorWeb
 
 Este projeto foi gerado usando [Angular CLI](https://github.com/angular/angular-cli) versão 20.0.2.
-Para fazer o login na aplicação é necessário o clone do [back-end](https://github.com/KaioJesus/KaioJesus/viceri-seidor-svc.git) e utilizar os dados que estão como mocks no readme do repositório citado.
+Para fazer o login na aplicação é necessário o clone do `https://github.com/KaioJesus/KaioJesus/viceri-seidor-svc.git` e utilizar os dados que estão como mocks no readme do repositório citado.
 
 ## Development server
 
