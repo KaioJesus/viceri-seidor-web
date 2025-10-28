@@ -1,1 +1,89 @@
-<p>agenda works!</p>
+<div class="flex h-[calc(100vh-64px)] bg-gray-50">
+  <aside
+    class="w-64 border-r border-gray-200 bg-white p-4 space-y-6 overflow-y-auto"
+  >
+    <div>
+      <h2 class="text-lg font-semibold mb-2">
+        {{currentMonth.toLocaleString('default', { month: 'long' })}}
+      </h2>
+      <div class="text-sm text-gray-500">
+        (Placeholder para Mini-Calendário)
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="space-y-2">
+      <h3 class="text-sm font-medium text-gray-500">Today</h3>
+      @for (event of todayEvents(); track event.id) {
+      <div class="flex items-center space-x-2 text-sm">
+        <span class="h-2 w-2 rounded-full bg-red-500"></span>
+        <span class="text-gray-700">{{ event.title }}</span>
+        <span class="ml-auto text-gray-400"
+          >{{ event.dateTime | date:'HH:mm' }}</span
+        >
+      </div>
+      } @empty {
+      <p class="text-sm text-gray-400">Sem eventos para hoje.</p>
+      }
+    </div>
+
+    <div class="space-y-2">
+      <h3 class="text-sm font-medium text-gray-500">Tomorrow</h3>
+      @for (event of tomorrowEvents(); track event.id) {
+      <div class="flex items-center space-x-2 text-sm">
+        <span class="h-2 w-2 rounded-full bg-blue-500"></span>
+        <span class="text-gray-700">{{ event.title }}</span>
+        <span class="ml-auto text-gray-400"
+          >{{ event.dateTime | date:'HH:mm' }}</span
+        >
+      </div>
+      } @empty {
+      <p class="text-sm text-gray-400">Sem eventos para amanhã.</p>
+      }
+    </div>
+  </aside>
+
+  <main class="flex-1 flex flex-col p-6 overflow-hidden">
+    <header class="flex items-center justify-between mb-4">
+      <div class="flex items-center space-x-4">
+        <h1 class="text-2xl font-semibold text-gray-900">
+          {{ currentMonth.toLocaleString('default', { month: 'long', year:
+          'numeric' }) }}
+        </h1>
+        <button class="px-3 py-1 border rounded-md shadow-sm text-sm">
+          Month &darr;
+        </button>
+      </div>
+      <div class="flex items-center space-x-2">
+        <input
+          type="search"
+          placeholder="Search"
+          class="px-3 py-1.5 border rounded-md shadow-sm text-sm"
+        />
+        <button
+          (click)="onAddEvent()"
+          class="flex items-center px-4 py-1.5 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700"
+        >
+          <svg
+            class="h-5 w-5 mr-1"
+            xmlns="http://www.w.3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+            />
+          </svg>
+          Add event
+        </button>
+      </div>
+    </header>
+
+    <div
+      class="flex-1 overflow-y-auto bg-white rounded-lg shadow border border-gray-200"
+    >
+      <full-calendar [options]="calendarOptions()"></full-calendar>
+    </div>
+  </main>
+</div>

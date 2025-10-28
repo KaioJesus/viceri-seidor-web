@@ -10,3 +10,17 @@ export interface Person {
   school: string;
   address: string;
 }
+
+export type MeetingType = 'presencial' | 'remota';
+export type MeetingStatus = 'agendado' | 'concluido' | 'cancelado';
+
+export interface Meeting {
+  id: string;
+  title: string;
+  dateTime: Date | string;
+  type: MeetingType;
+  location: string;
+  participants: string[];
+  status: MeetingStatus;
+  relatedPlanId?: string | null;
+}
