@@ -7,12 +7,7 @@ interface PessoasState {
   error: string | null;
 }
 
-const MOCK_PESSOAS: Person[] = [
-  { id: 'p1', name: 'John Due', cpf: '111.111.111-99', email: 'johndue@email.com', school: 'Escola 1', address: 'Cidade - Estado' },
-  { id: 'p2', name: 'Jane Smith', cpf: '222.222.222-99', email: 'janesmith@email.com', school: 'Escola 2', address: 'Cidade - Estado' },
-  { id: 'p3', name: 'Robert Brown', cpf: '333.333.333-99', email: 'robertb@email.com', school: 'Escola 1', address: 'Cidade - Estado' },
-  { id: 'p4', name: 'Emily Davis', cpf: '444.444.444-99', email: 'emilyd@email.com', school: 'Escola 3', address: 'Cidade - Estado' },
-];
+const STORAGE_KEY = 'sigae_pessoas_data';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +25,31 @@ export class PessoasService {
   public error: Signal<string | null> = computed(() => this.state().error);
 
   constructor() {
-    this.loadPessoas();
+    this.loadPessoasFromStorage();
   }
 
-  public loadPessoas(): void {
-    this.state.set({ pessoas: MOCK_PESSOAS, loading: false, error: null });
+  private loadPessoasFromStorage(): void {
+    let initialPessoas: Person[] = [];
+
+    try {
+      const storedData = localStorage.getItem(STORAGE_KEY);
+      if (storedData) {
+        initialPessoas = JSON.parse(storedData) as Person[];
+      }
+
+    } catch (e) {
+      console.error("Falha ao ler o localStorage, iniciando com lista vazia.", e);
+    }
+
+    this.state.set({ pessoas: initialPessoas, loading: false, error: null });
+  }
+
+  private saveToStorage(pessoas: Person[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(pessoas));
+    } catch (e) {
+      console.error("Falha ao salvar no localStorage.", e);
+    }
   }
 
   public addPessoa(pessoa: Omit<Person, 'id'>): void {
