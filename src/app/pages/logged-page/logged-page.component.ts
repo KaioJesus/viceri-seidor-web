@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { HeaderComponent } from './shared/header/header.component';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 
@@ -9,7 +8,6 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
-    HeaderComponent,
     RouterModule],
   templateUrl: './logged-page.component.html',
   styleUrls: ['./logged-page.component.css']

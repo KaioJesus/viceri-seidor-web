@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../core/services/login.service';
+import { LoginService } from '../../core/services/login.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 
@@ -25,9 +25,9 @@ export class LoginComponent {
   }
 
   loginForm: FormGroup = new FormGroup({
-    username: new FormControl(['', Validators.required]),
-    password: new FormControl(['', Validators.required]),
-    recaptcha: new FormControl(['', Validators.required])
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    recaptcha: new FormControl('', [Validators.required])
   });
 
   private readonly _router = inject(Router);
@@ -37,11 +37,12 @@ export class LoginComponent {
 
     const login = {
       username: this.loginForm.get('username')?.value,
-      password: this.loginForm.get('password')?.value
+      password: this.loginForm.get('password')?.value,
+      recaptcha: this.loginForm.get('recaptcha')?.value
     }
-    this._loginService.login(login.username, login.password).subscribe({
+    this._loginService.login(login.username, login.password, login.recaptcha).subscribe({
       next: (res)=>{
-        this._router.navigate(['home'])
+        this._router.navigate(['/'])
       },
       error:(err)=>{
         console.log(err);

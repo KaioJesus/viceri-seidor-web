@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoggedPageComponent } from './logged-page.component';
-import { authGuard } from '../core/guards/auth.guard';
+import { authGuard } from '../../core/guards/auth.guard';
 
 
 export const loggedPageRoutes: Routes = [

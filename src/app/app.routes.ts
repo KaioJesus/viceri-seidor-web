@@ -1,17 +1,22 @@
+import { HomepageComponent } from "./pages/homepage/hompeage-component";
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './core/guards/auth.guard';;
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: HomepageComponent,
+  },
    {
-      path: '',
+      path: 'login',
       component: LoginComponent,
   },
   {
       path: 'home',
       canActivate: [authGuard],
       loadChildren: () =>
-        import('./logged-page/logged-page.routes').then(
+        import('./pages/logged-page/logged-page.routes').then(
           m => m.loggedPageRoutes
         )
   },
