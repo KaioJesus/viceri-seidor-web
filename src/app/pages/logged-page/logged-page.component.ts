@@ -1,3 +1,4 @@
+import { HeaderComponent } from "../../components/header-component/header-component";
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
@@ -8,16 +9,13 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
-    RouterModule],
+    RouterModule, HeaderComponent],
   templateUrl: './logged-page.component.html',
   styleUrls: ['./logged-page.component.css']
 })
 export class LoggedPageComponent implements OnInit{
 
   private router = inject(Router)
-
-  menuItems = [
-  ];
 
   ngOnInit(): void {
   }
