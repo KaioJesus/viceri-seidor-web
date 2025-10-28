@@ -21,7 +21,7 @@ import { LoginService } from '../../core/services/login.service';
               routerLinkActive="text-blue-600 border-b-2 border-blue-600"
               class="flex gap-2 items-center px-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-900"
             >
-              <img src="/icons/user.png" class="h-4 w-4" alt="" srcset="" />
+              <span class="pi pi-user"></span>
               <span>Pessoas</span>
             </a>
             <a
@@ -29,20 +29,15 @@ import { LoginService } from '../../core/services/login.service';
               routerLinkActive="text-blue-600 border-b-2 border-blue-600"
               class="flex gap-2 items-center px-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-900"
             >
-              <img src="/icons/calendar.png" class="h-4 w-4" alt="" srcset="" />
+              <span class="pi pi-calendar"></span>
               <span>Agenda</span>
             </a>
             <a
-              routerLink="/plano-de-acao"
+              routerLink="/planos-de-acao"
               routerLinkActive="text-blue-600 border-b-2 border-blue-600"
               class="flex gap-2 items-center px-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-900"
             >
-              <img
-                src="/icons/copy.png"
-                class="h-4 w-4"
-                alt=""
-                srcset=""
-              />
+              <span class="pi pi-copy"></span>
               <span>Plano de Ação</span>
             </a>
           </div>
@@ -55,7 +50,7 @@ import { LoginService } from '../../core/services/login.service';
             (click)="onLogout()"
             class="flex gap-2 items-center px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 cursor-pointer"
           >
-            <img src="/icons/power.png" class="h-4 w-4" alt="" srcset="" />
+            <span class="pi pi-power-off"></span>
             <span>Quit</span>
           </button>
           } @else {
