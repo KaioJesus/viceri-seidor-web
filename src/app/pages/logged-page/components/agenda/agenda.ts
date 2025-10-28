@@ -6,13 +6,14 @@ import {
   signal,
   WritableSignal,
   ViewChild,
-  effect
+  effect,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { AgendaService } from '../../../../core/services/agenda.service';
 import { Meeting } from '../../../../core/models/models';
@@ -44,6 +45,8 @@ export class Agenda {
   private agendaService = inject(AgendaService);
 
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
+  @ViewChild('miniCalendar') miniCalendarComponent!: FullCalendarComponent;
 
   private meetings: Signal<Meeting[]> = this.agendaService.meetings;
 
@@ -79,6 +82,27 @@ export class Agenda {
     events: this.calendarEvents(),
     height: 'auto',
     initialDate: this.currentDate(),
+    datesSet: (arg) => {
+      const newDate = arg.view.currentStart;
+      // ajustar fuso horário (comum no FullCalendar)
+      const adjustedDate = new Date(newDate.valueOf() + newDate.getTimezoneOffset() * 60 * 1000);
+      if (adjustedDate.getMonth() !== this.currentDate().getMonth()) {
+        this.currentDate.set(adjustedDate);
+      }
+    }
+  }));
+
+    public miniCalendarOptions: Signal<CalendarOptions> = computed(() => ({
+    plugins: [dayGridPlugin as any],
+    initialView: 'dayGridMonth',
+    headerToolbar: false,
+    height: 'auto',
+    initialDate: this.currentDate(),
+    // Formato dos dias da semana
+    dayHeaderFormat: { weekday: 'narrow' },
+    weekNumbers: false,
+    dateClick: this.onMiniCalendarDateClick.bind(this),
+    showNonCurrentDates: true,
   }));
 
   public todayEvents: Signal<Meeting[]> = computed(() =>
@@ -95,6 +119,10 @@ export class Agenda {
       if (this.calendarComponent) {
         this.calendarComponent.getApi().gotoDate(newDate);
       }
+
+      if (this.miniCalendarComponent) {
+        this.miniCalendarComponent.getApi().gotoDate(newDate);
+      }
     });
   }
 
@@ -107,6 +135,9 @@ export class Agenda {
     });
   }
 
+  onMiniCalendarDateClick(arg: DateClickArg): void {
+    this.currentDate.set(arg.date);
+  }
 
   onAddEvent(): void {
     const mockMeeting: Omit<Meeting, 'id' | 'status'> = {
@@ -118,4 +149,5 @@ export class Agenda {
     };
     this.agendaService.addMeeting(mockMeeting);
   }
+
 }
