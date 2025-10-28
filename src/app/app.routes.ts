@@ -13,7 +13,7 @@ export const routes: Routes = [
       component: LoginComponent,
   },
   {
-      path: 'home',
+      path: '',
       canActivate: [authGuard],
       loadChildren: () =>
         import('./pages/logged-page/logged-page.routes').then(
