@@ -9,7 +9,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   selector: 'app-login',
   imports: [ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 

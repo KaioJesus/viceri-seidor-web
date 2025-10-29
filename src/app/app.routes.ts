@@ -1,4 +1,4 @@
-import { HomepageComponent } from "./pages/homepage/hompeage-component";
+import { HomepageComponent } from "./pages/homepage/homepage.component";
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './core/guards/auth.guard';;
